@@ -16,7 +16,7 @@ RUN taskset -c 0 /root/steamcmd/steamcmd.sh \
             +quit
 RUN cd /root/PZ && \
     echo "/root/steamcmd/steamcmd.sh +@ShutdownOnFailedCommand 1 +@NoPromptForPassword 1 +login anonymous +force_install_dir /root/PZ +app_update 380870 +quit" > start.sh && \
-    echo "/root/PZ/start-server.sh >> EOF" >> start.sh && \
+    echo "/root/PZ/start-server.sh << EOF" >> start.sh && \
     echo "123456" >> start.sh && \
     echo "EOF" >> start.sh && \
     chmod +x start.sh
