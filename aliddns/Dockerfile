@@ -8,7 +8,7 @@ RUN cd /app \
     && apk -U add tzdata \
     && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
     && apk del tzdata \
-    && echo '*/5 * * * * node /app/aliddns.js' >> /var/spool/cron/crontabs/root
+    && echo '*/5 * * * * node /app/aliddns.js' > /var/spool/cron/crontabs/root
 
 WORKDIR /app
 
