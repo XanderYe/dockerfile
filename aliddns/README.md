@@ -1,4 +1,4 @@
-# project-zomboid-server
+# aliddns
 
 ## 用途
 阿里DDNS的docker镜像，每5分钟更新一次解析记录
