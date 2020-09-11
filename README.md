@@ -4,3 +4,6 @@
 
 ## [project-zomboid-server](https://github.com/XanderYe/dockerfile/tree/master/project-zomboid-server)
 project-zomboid游戏服务器的docker镜像
+
+## [aliddns](https://github.com/XanderYe/dockerfile/tree/master/aliddns)
+阿里DDNS的docker镜像，每5分钟更新一次解析记录
