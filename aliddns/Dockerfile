@@ -3,6 +3,7 @@ MAINTAINER XanderYe <XanderYe@outlook.com>
 COPY ./aliddns.js /app/aliddns.js
 
 RUN cd /app \
+    && npm config set registry https://registry.npm.taobao.org \
     && npm install --save @alicloud/pop-core http https querystring \
     && sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories \
     && apk -U add tzdata \
