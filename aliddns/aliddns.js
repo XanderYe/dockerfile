@@ -10,8 +10,8 @@ const accessKeyId = ""
 const accessSecret = ""
 // 域名
 const domainName = ""
-// 主机记录
-const rr = ""
+// 主机记录 e.g ["www", "@"]
+const rr = []
 
 const client = new Core({
   accessKeyId: accessKeyId,
@@ -35,12 +35,7 @@ const getDescribeDomainRecords = (_domainName) => {
   return new Promise((resolve, reject) => {
     client.request('DescribeDomainRecords', params, requestOption).then((result) => {
       const records = result.DomainRecords.Record;
-      for (const record of records) {
-        if (record.RR === rr) {
-          resolve(record);
-        }
-      }
-      resolve();
+      resolve(records.filter(({ RR }) => rr.includes(RR)));
     }, (ex) => {
       reject(ex);
     })
@@ -101,19 +96,26 @@ const getMyIp = () => {
 
 const main = async () => {
   let ip = await getMyIp();
-  let record = await getDescribeDomainRecords(domainName);
-  if (record) {
-    if (record.Value !== ip) {
-      console.log("Record changed, start updating……");
-      record.Type = "A";
-      record.Value = ip;
-      updateDomainRecord(record).then(() => {
-        console.log("Record named " + rr + " updates to '" + ip + "'.");
-      }).catch((err) => {
-        console.log(err);
-        console.log("Update failed.");
+  let records = await getDescribeDomainRecords(domainName);
+  if (records.length) {
+    console.log("Record changed, start updating……");
+    const task = records.reduce((task, record) => {
+      if (record.Value !== ip) {
+        record.Type = "A";
+        record.Value = ip;
+        task.push(updateDomainRecord(record))
+      }
+      return task
+    }, [])
+    // update all match
+    Promise.all(task).then(res => {
+      res.forEach((v, i) => {
+        console.log("Record named " + records[i].RR + " updates to '" + ip + "'.");
       })
-    }
+    }).catch((err) => {
+      console.log(err);
+      console.log("Update failed.");
+    })
   } else {
     console.log("No record matches");
   }
