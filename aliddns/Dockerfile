@@ -9,8 +9,8 @@ RUN cd /app \
     && apk -U add tzdata \
     && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
     && apk del tzdata \
-    && echo '*/5 * * * * node /app/aliddns.js' > /var/spool/cron/crontabs/root
+    && echo '*/5 * * * * node /app/aliddns.js > /dev/stdout' > /var/spool/cron/crontabs/root
 
 WORKDIR /app
 
-CMD crond -f && node aliddns.js
+CMD crond -f && node aliddns.js > /dev/stdout
