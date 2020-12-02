@@ -1,6 +1,5 @@
 # build
 FROM maven:3.6.2-jdk-11-slim as BUILDER
-LABEL maintainer="XanderYe <XanderYe@outlook.com>"
 
 RUN apt-get update && \
 	apt-get install -y git && \
@@ -16,6 +15,8 @@ WORKDIR /app/start.spring.io
 RUN mvn -Dmaven.test.skip clean install --batch-mode --no-transfer-progress
 # run
 FROM adoptopenjdk/openjdk11:alpine-jre
+
+MAINTAINER XanderYe <XanderYe@outlook.com>
 
 ENV USER=spring
 
