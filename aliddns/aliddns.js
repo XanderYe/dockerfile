@@ -61,27 +61,25 @@ const updateDomainRecord = (record) => {
 }
 
 const getMyIp = () => {
+  // see: https://www.ipaddress.com/what-is-my-ip-address/api.html
   let options = {
-    hostname: "ip.taobao.com",
+    hostname: "api.ipaddress.com",
     port: 80,
-    path: "/outGetIpInfo",
-    method: "POST",
+    path: "/myip",
+    method: "GET",
     headers: {
       "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36",
       "Content-Type": "application/x-www-form-urlencoded",
-      "Origin": "http://ip.taobao.com",
-      "Referer": "http://ip.taobao.com/"
+      "Origin": "http://api.ipaddress.com",
+      "Referer": "http://api.ipaddress.com/"
     }
   }
-  const params = {ip: "myip", accessKey: "alibaba-inc"};
+  const params = { format: 'text' };
   return new Promise((resolve, reject) => {
     let req = http.request(options, (res) => {
       res.setEncoding("utf-8");
       if (res.statusCode === 200) {
-        res.on("data", (data) => {
-          const res = JSON.parse(data);
-          resolve(res.data.queryIp);
-        });
+        res.on("data", resolve);
       } else {
         reject(res.statusCode);
       }
