@@ -35,8 +35,7 @@ if [ "$1" = "mysqld" ]; then
 
     # 配置用户和密码
     "${mysql[@]}" -uroot <<-EOSQL
-FLUSH PRIVILEGES ;
-DELETE FROM mysql.user;
+DELETE FROM mysql.user ;
 GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD' ;
 FLUSH PRIVILEGES ;
 EOSQL
