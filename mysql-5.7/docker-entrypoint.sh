@@ -6,7 +6,7 @@ fi
 
 if [ "$1" = "mysqld" ]; then
   if [ ! -d "$DATADIR/mysql" ]; then
-    echo "start initializing MySQL."
+    echo "Start initializing MySQL."
 
     mkdir -p "$DATADIR"
     chown -R mysql:mysql "$DATADIR"
